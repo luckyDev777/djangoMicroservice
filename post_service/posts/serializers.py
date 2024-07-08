@@ -39,7 +39,7 @@ class PostSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         validated_attrs = super().create(validated_data)
         send_notification.delay(
-            recipiend_id=validated_attrs.author_id,
+            recipient_id=validated_attrs.author_id,
             message=f"Created notification with title {validated_data['title']}"
         )
         return validated_attrs

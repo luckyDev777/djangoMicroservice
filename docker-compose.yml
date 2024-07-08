@@ -42,6 +42,32 @@ services:
     networks:
       - mynetwork
 
+  celery_notification_worker:
+    build:
+      context: ./notification_service
+    container_name: celery_notification_worker
+    command: celery -A notification_service worker --loglevel=info
+    depends_on:
+      - notification-service
+      - rabbitmq
+    environment:
+      - DJANGO_SETTINGS_MODULE=notification_service.settings
+    networks:
+      - mynetwork
+
+  celery_post_worker:
+    build:
+      context: ./post_service
+    container_name: celery_post_worker
+    command: celery -A post_service worker --loglevel=info
+    depends_on:
+      - post-service
+      - rabbitmq
+    environment:
+      - DJANGO_SETTINGS_MODULE=post_service.settings
+    networks:
+      - mynetwork
+
   rabbitmq:
     image: "rabbitmq:3-management"
     container_name: rabbitmq

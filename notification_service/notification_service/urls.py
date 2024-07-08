@@ -21,7 +21,7 @@ from notifications.views import NotificationViewSet
 
 
 router = DefaultRouter()
-router.register(r'notification', NotificationViewSet, basename="notification")
+router.register(r'notifications', NotificationViewSet, basename="notifications")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
