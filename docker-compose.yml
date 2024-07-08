@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  user-service:
+    build:
+      context: ./user_service
+    ports:
+      - "8001:8000"
+    environment:
+      - DJANGO_SETTINGS_MODULE=user_service.settings
+    volumes:
+      - ./user_service:/app
+    networks:
+      - mynetwork
+
+  post-service:
+    build:
+      context: ./post_service
+    ports:
+      - "8002:8000"
+    environment:
+      - DJANGO_SETTINGS_MODULE=post_service.settings
+    volumes:
+      - ./post_service:/app
+    networks:
+      - mynetwork
+
+
+networks:
+  mynetwork:
+    driver: bridge
