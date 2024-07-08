@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import Post, Category
 import requests
 from rest_framework.exceptions import ValidationError
+from .utils import send_notification
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -35,3 +36,11 @@ class PostSerializer(serializers.ModelSerializer):
         if response.status_code == 404:
             raise ValidationError(f"User with {value} does not exists")
         return value
+    
+    def create(self, validated_data):
+        validated_attrs = super().create(validated_data)
+        send_notification(
+            recipiend_id=validated_data["author_id"],
+            message=f"Created notification with title {validated_data['title']}"
+        )
+        return validated_attrs

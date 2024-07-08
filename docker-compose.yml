@@ -24,6 +24,17 @@ services:
       - ./post_service:/app
     networks:
       - mynetwork
+  notification-service:
+    build:
+      context: ./notification_service
+    ports:
+      - "8003:8000"
+    environment:
+      - DJANGO_SETTINGS_MODULE=notification_service.settings
+    volumes:
+      - ./notification_service:/app
+    networks:
+      - mynetwork
 
 
 networks:
