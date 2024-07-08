@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import Post, Category
 import requests
 from rest_framework.exceptions import ValidationError
-from .utils import send_notification
+from .tasks import send_notification
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -25,7 +25,6 @@ class PostSerializer(serializers.ModelSerializer):
     def get_author(self, obj):
         user_service_url = f'http://user-service:8000/users/{obj.author_id}/'
         response = requests.get(user_service_url)
-        print(response)
         if response.status_code == 200:
             return response.json()
         return None
@@ -39,8 +38,8 @@ class PostSerializer(serializers.ModelSerializer):
     
     def create(self, validated_data):
         validated_attrs = super().create(validated_data)
-        send_notification(
-            recipiend_id=validated_data["author_id"],
+        send_notification.delay(
+            recipiend_id=validated_attrs.author_id,
             message=f"Created notification with title {validated_data['title']}"
         )
         return validated_attrs

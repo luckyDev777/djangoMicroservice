@@ -22,8 +22,12 @@ services:
       - DJANGO_SETTINGS_MODULE=post_service.settings
     volumes:
       - ./post_service:/app
+    depends_on:
+      - user-service
+      - rabbitmq
     networks:
       - mynetwork
+
   notification-service:
     build:
       context: ./notification_service
@@ -33,6 +37,20 @@ services:
       - DJANGO_SETTINGS_MODULE=notification_service.settings
     volumes:
       - ./notification_service:/app
+    depends_on:
+      - rabbitmq
+    networks:
+      - mynetwork
+
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    container_name: rabbitmq
+    ports:
+      - "5673:5672"
+      - "15673:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
     networks:
       - mynetwork
 
