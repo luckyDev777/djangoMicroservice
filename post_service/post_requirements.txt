@@ -11,6 +11,7 @@ click-repl==0.3.0
 Django==4.2.13
 djangorestframework==3.15.2
 idna==3.7
+kafka-python==2.0.2
 kombu==5.3.7
 prompt_toolkit==3.0.47
 python-dateutil==2.9.0.post0

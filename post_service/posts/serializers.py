@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import Post, Category
 import requests
 from rest_framework.exceptions import ValidationError
-from .tasks import send_notification
+from .tasks import publish_event
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -37,9 +37,13 @@ class PostSerializer(serializers.ModelSerializer):
         return value
     
     def create(self, validated_data):
-        validated_attrs = super().create(validated_data)
-        send_notification.delay(
-            recipient_id=validated_attrs.author_id,
-            message=f"Created notification with title {validated_data['title']}"
-        )
-        return validated_attrs
+        post = super().create(validated_data)
+        event_data = {
+            'post_id': post.id,
+            'title': post.title,
+            'content': post.content,
+            'author_id': post.author_id,
+            'category_id': post.category_id
+        }
+        publish_event('post.created', event_data)
+        return post

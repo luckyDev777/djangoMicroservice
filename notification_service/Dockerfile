@@ -15,8 +15,14 @@ RUN pip install --no-cache-dir -r notification_requirements.txt
 # Copy the project files
 COPY . /app/
 
+# Copy the start script
+COPY start.sh /app/start.sh
+
+# Make the start script executable
+RUN chmod +x /app/start.sh
+
 # Expose the port the app runs on
 EXPOSE 8000
 
-# Run the Django development server
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Run the start script
+CMD ["/app/start.sh"]
