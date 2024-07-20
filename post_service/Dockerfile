@@ -1,22 +1,15 @@
-# Use the official Python image from the Docker Hub
-FROM python:3.9-slim
+FROM python:3.11-slim
 
-# Set environment variables
 ENV PYTHONUNBUFFERED 1
 ENV DJANGO_SETTINGS_MODULE user_service.settings
 
-# Create and set the working directory
 WORKDIR /app
 
-# Install dependencies
 COPY post_requirements.txt /app/
 RUN pip install --no-cache-dir -r post_requirements.txt
 
-# Copy the project files
 COPY . /app/
 
-# Expose the port the app runs on
 EXPOSE 8000
 
-# Run the Django development server
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
