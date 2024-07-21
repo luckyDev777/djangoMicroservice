@@ -40,9 +40,7 @@ $ docker-compose up # to compose up
 $ docker-compose down # to compose down
 ```
 
-3. Open a browser and go to http://localhost:8001/users/ (user-service)
-   Open a browser and go to http://localhost:8002/posts/ (posts_service)
-   Open a browser and go to http://localhost:8003/notifications/ (notification_service)
-
-
-4. Kafdrop => Open a browser and go to http://localhost:9000/ (Kafka web UI for monitoring)
+3. user-service => go to http://localhost:8001/users/ 
+4. posts_service => go to http://localhost:8002/posts/ 
+5. notification_service => go to http://localhost:8003/notifications/ 
+6. Kafdrop => Open a browser and go to http://localhost:9000/ (Kafka web UI for monitoring)
