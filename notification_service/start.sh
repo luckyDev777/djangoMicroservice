@@ -1,5 +1,7 @@
 #!/bin/sh
 
+python manage.py collectstatic --noinput
+
 # Start the Django development server in the background
 python manage.py runserver 0.0.0.0:8000 &
 
